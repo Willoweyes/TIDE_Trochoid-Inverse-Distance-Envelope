@@ -73,5 +73,6 @@ def apply():
 
 def save(fig, root, name):
     """Write PDF, SVG (text as paths, for Word) and a 600-dpi PNG."""
+    out = root / "figures"; out.mkdir(parents=True, exist_ok=True)
     for ext in ("pdf", "svg", "png"):
-        fig.savefig(root / f"paper/figures/{name}.{ext}")
+        fig.savefig(out / f"{name}.{ext}")

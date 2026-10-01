@@ -19,7 +19,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 BUNDLE = HERE.parent
 CODE = BUNDLE
-RES = HERE / "results"; RES.mkdir(exist_ok=True)
+RES = Path(os.environ.get("COMPARE_RESULTS", HERE / "results")); RES.mkdir(parents=True, exist_ok=True)
 sys.path.insert(0, str(CODE / "scripts"))
 from common import case_cfg, edge_speed, TMP          # TMP: private temp dir (set TEMP to a folder with space)
 
@@ -29,7 +29,8 @@ PYD_PY = os.environ.get("PYD_PYTHON", sys.executable)    # python that can impor
 from common import exe
 EXE = {"ours": exe("tide_tools"), "gcc_native": str(HERE / ("bakhshan_gcc_native" + SFX)),
        "gcc_generic": str(HERE / ("bakhshan_gcc_generic" + SFX))}
-CASES = ["A1", "A2", "A3"]; GRIDS = [25, 50, 100, 200, 400, 800, 1600]
+CASES = ["A1", "A2", "A3"]
+GRIDS = [int(g) for g in os.environ.get("COMPARE_GRIDS", "25,50,100,200,400,800,1600").split(",")]   # e.g. COMPARE_GRIDS=25,50 for a quick check
 steps = sys.argv[1:] or ["acc", "time", "threads", "mt3"]
 
 def cmd(impl, cfgf, gb, dt, dump=None):

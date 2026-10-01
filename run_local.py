@@ -49,6 +49,7 @@ if todo("machine_info"):
 p1 = [("verify", [RE, "verify"], 1, None), ("surfaces", [RE, "surfaces"], 1, None),
       ("ref", [PS, "ref"], 1, {"TIDE_REF_WORKERS": "8"}),
       ("radial_shortcut", ["scripts/experiments/radial_shortcut.py"], 1, None),
+      ("newton_steps", ["scripts/experiments/newton_steps.py", "1000"], 1, None),
       ("timestep_check", ["scripts/experiments/timestep_check.py"], 1, None)]
 hs = [launch(*a) for a in p1 if todo(a[0])]
 bad = [h["name"] for h in hs if finish(h) != 0]

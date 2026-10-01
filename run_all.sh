@@ -9,5 +9,6 @@ python3 scripts/run_experiments.py
 python3 scripts/experiments/pipeline_study.py
 python3 scripts/experiments/radial_shortcut.py
 python3 scripts/experiments/timestep_check.py
+python3 scripts/experiments/newton_steps.py 1000
 for f in fig_schematic fig_convergence fig_maps fig_cost fig_pipeline; do python3 scripts/plotting/$f.py; done
 python3 scripts/paper_numbers.py

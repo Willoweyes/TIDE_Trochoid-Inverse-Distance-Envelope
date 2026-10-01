@@ -1,11 +1,12 @@
 """Hybrid-pipeline study (design A).
 Part 1  cloud : FSM Sa/Sz over its numerical settings (grid, dt ratio r, edge points)
                 vs TIDE over sampling only, cases A1-A3.
-Part 2  ref   : independent reference = FSM at 800 and 1600 cells (r = 0.25, 8n edge points),
-                Richardson-extrapolated to zero cell size,
-                on 36 conditions around A1 (cross-checked against TIDE).
+Part 2  ref   : on 36 conditions around A1, TIDE at 1600 cells (Sa_tide1600, the reference used in Part 4) and,
+                as an independent cross-check, FSM at 800 and 1600 cells (r = 0.25, 8n edge points)
+                Richardson-extrapolated to zero cell size (Sa_ref; not used in Part 4).
 Part 3  cores : every core option on the 36 conditions (Sa + wall-clock).
-Part 4  learn : y = S_ref + delta_true + eps; GP on y - M; delta error vs pipeline time.
+Part 4  learn : y = S_a(TIDE, 1600 cells) + delta_true + eps; GP on y - M; delta error vs pipeline time.
+                Needs data/raw/pipeline_reference.csv (shipped; Part 2 regenerates it) and pipeline_cores.csv (Part 3).
 Usage: python pipeline_study.py [cloud] [ref] [cores] [learn]"""
 import sys, csv, json, time, itertools, os
 from concurrent.futures import ProcessPoolExecutor

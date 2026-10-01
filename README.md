@@ -29,9 +29,9 @@ On Windows with MinGW use `-G "MinGW Makefiles"`; with MSVC the executables are 
 | Linux / macOS | `bash run_all.sh` |
 | Any (Python driver with logs and resume, build the code first) | `python run_local.py --fresh` |
 
-All scripts build with `-O3`/`/O2` and **no fast-math**, run every experiment **single-threaded** (`OMP_NUM_THREADS=1`) and report the **median of three runs** (`TIDE_REPS=3`). A full run takes about 1–2 h on a modern 8-core desktop/laptop CPU (most of it FSM at 1600–3200 cells and the hybrid-model study). A single step: `python scripts/run_experiments.py <step>` with step ∈ `verify sampling ladder cost resolution surfaces scaling`; the hybrid-model study is `python scripts/experiments/pipeline_study.py [cloud ref cores learn]`.
+All scripts build with `-O3`/`/O2` and **no fast-math**, run every experiment **single-threaded** (`OMP_NUM_THREADS=1`) and report the **median of three runs** (`TIDE_REPS=3`). A full run takes about 1–2 h on a modern 8-core desktop/laptop CPU (most of it FSM at 1600–3200 cells and the hybrid-model study). A single step: `python scripts/run_experiments.py <step>` with step ∈ `verify sampling ladder cost resolution surfaces scaling`; the hybrid-model study is `python scripts/experiments/pipeline_study.py [cloud ref cores learn]` (`learn` reads the shipped `data/raw/pipeline_reference.csv` and `pipeline_cores.csv` and runs in seconds; `ref` is the long step, about 1 h on 2 cores).
 
-**What to expect.** Accuracy results (heights, Sa, Sz, errors, convergence orders, verification against the brute-force search, the hybrid-model errors) are deterministic and reproduce to round-off (differences below 1e-12 relative between platforms/compilers). Wall-clock times depend on the machine, compiler and C library; the ratios between TIDE and FSM change with them (see `results/machine_info.json` for the machine of the shipped results).
+**What to expect.** Accuracy results (heights, Sa, Sz, errors, convergence orders, verification against the brute-force search, the hybrid-model errors) are deterministic and reproduce to round-off (the largest relative difference we observed between two platforms and compilers is 5×10⁻¹², in Sa). Wall-clock times depend on the machine, compiler and C library; the ratios between TIDE and FSM change with them (see `results/machine_info.json` for the machine of the shipped results).
 
 ## 3. Where each result comes from
 
@@ -53,7 +53,7 @@ All scripts build with `-O3`/`/O2` and **no fast-math**, run every experiment **
 | Hybrid model: reference, cores, learning | `experiments/pipeline_study.py ref cores learn` | `data/raw/pipeline_reference.csv`, `pipeline_cores.csv`, `data/processed/pipeline_study.json` (`plotting/fig_pipeline.py`) |
 | All numbers quoted in the text | `python scripts/paper_numbers.py` | `results/paper_numbers.txt` |
 
-The figures are redrawn by `scripts/plotting/*.py` into `paper/figures/` (not shipped; created on demand).
+The figures are redrawn by `scripts/plotting/*.py` into `figures/` (PDF, SVG, 600-dpi PNG; not shipped, created on demand).
 
 ## 4. Layout
 

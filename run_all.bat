@@ -11,9 +11,10 @@ python scripts\run_experiments.py || goto :err
 python scripts\experiments\pipeline_study.py || goto :err
 python scripts\experiments\radial_shortcut.py || goto :err
 python scripts\experiments\timestep_check.py || goto :err
+python scripts\experiments\newton_steps.py 1000 || goto :err
 for %%f in (fig_schematic fig_convergence fig_maps fig_cost fig_pipeline) do python scripts\plotting\%%f.py || goto :err
 python scripts\paper_numbers.py || goto :err
-echo DONE. See results\paper_numbers.txt and paper\figures\
+echo DONE. See results\paper_numbers.txt and figures\
 exit /b 0
 :err
 echo FAILED & exit /b 1
