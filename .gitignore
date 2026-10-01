@@ -1,0 +1,10 @@
+build/
+paper/
+__pycache__/
+*.pyc
+*.exe
+*.o
+*.obj
+results/logs/
+results/run_local.console.log
+compare_bakhshan/results_console.log

@@ -1,0 +1,39 @@
+{
+  "mode": "single",
+  "case_name": "paper_A2",
+  "input": {
+    "vc": 200.0,
+    "fz": 0.4,
+    "eps_r": -0.026,
+    "eps_a": 0.009,
+    "z": 2,
+    "ri": 5.0
+  },
+  "fixed": {
+    "phi": 90.0,
+    "Td": 10.0,
+    "ap": 0.4,
+    "gama_f": 0.6,
+    "gama_p": 0.0,
+    "x_0": 5.0,
+    "y_0": -5.0,
+    "z_0": 0.0
+  },
+  "grid": {
+    "grid_base": 200,
+    "length": 5.0
+  },
+  "integration": {
+    "delta_t": 8e-07
+  },
+  "_meta": {
+    "group": "paper",
+    "ae_stepover_mm": 10.0,
+    "fz_over_D": 0.04,
+    "grid_base_auto": 200,
+    "grid_base_unclamped": 100,
+    "nyquist_satisfied": true,
+    "notes": "Literature Case 2 (exp Sa=1.63, EFSM pred 1.77)",
+    "reference_Sa_um": 1.63
+  }
+}

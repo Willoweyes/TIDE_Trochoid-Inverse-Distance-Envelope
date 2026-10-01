@@ -1,0 +1,101 @@
+Machine: AMD Ryzen 7 6800H with Radeon Graphics | 8 cores/16 threads | 15.3 GB RAM | Windows-10-10.0.26200-SP0 | compiler GNU 13.3.0 | Python 3.11.9
+tide: mean |err| Sa % {25: 6.184, 50: 2.622, 100: 0.56, 200: 0.141, 400: 0.049, 800: 0.015, 1600: 0.0}
+tide: mean |err| Sz % {25: 6.713, 50: 3.282, 100: 0.587, 200: 0.417, 400: 0.417, 800: 0.224, 1600: 0.0}
+tide: mean runtime s {25: 0.0067, 50: 0.0258, 100: 0.1007, 200: 0.3998, 400: 1.6005, 800: 6.387, 1600: 25.4657}
+fsm: mean |err| Sa % {25: 46.736, 50: 23.066, 100: 11.795, 200: 5.708, 400: 2.791, 800: 1.375, 1600: 0.68}
+fsm: mean |err| Sz % {25: 41.034, 50: 21.58, 100: 15.096, 200: 7.114, 400: 3.544, 800: 1.436, 1600: 0.216}
+fsm: mean runtime s {25: 0.0031, 50: 0.011, 100: 0.0408, 200: 0.1571, 400: 0.619, 800: 2.4685, 1600: 9.795}
+1% in Sa and Sz: TIDE 100 cells 0.10 s, FSM 1600 cells 9.8 s, ratio 97.3 (> 50)
+FSM Sa at 100 cells vs TIDE at 1600 cells: [ -8.41 -15.09 -11.89] %
+convergence order Sa 1.02-1.06, Sz 1.06-1.18
+released setting A1: FSM Sa -4.48 % vs TIDE 1600
+released setting A2: FSM Sa -8.21 % vs TIDE 1600
+released setting A3: FSM Sa -6.41 % vs TIDE 1600
+16-fold smaller dt at 100 cells: A1 -1.38 %, A2 -2.14 %, A3 -2.04 %
+TIDE runtime spread: 0.7 % over v_c, 2.3 % over f_z
+settings cloud A1: Sa error -21.1 .. 3.4 %
+settings cloud A2: Sa error -36.3 .. 1.4 %
+settings cloud A3: Sa error -26.6 .. -0.1 %
+settings cloud A1: Sz 5.33 .. 38.24 um
+TIDE-25            prediction 0.0127 | discrepancy 0.0241 +- 0.0048 um | RMS bias 0.0197 um | model time 0.31 s
+TIDE-50            prediction 0.0125 | discrepancy 0.0186 +- 0.0048 um | RMS bias 0.0135 um | model time 0.99 s
+TIDE-100           prediction 0.0121 | discrepancy 0.0159 +- 0.0043 um | RMS bias 0.0106 um | model time 3.72 s
+TIDE-200           prediction 0.0122 | discrepancy 0.0128 +- 0.0056 um | RMS bias 0.0033 um | model time 14.50 s
+FSM-50             prediction 0.0175 | discrepancy 0.2868 +- 0.0054 um | RMS bias 0.2859 um | model time 0.67 s
+FSM-100            prediction 0.0159 | discrepancy 0.1283 +- 0.0075 um | RMS bias 0.1266 um | model time 2.34 s
+FSM-200            prediction 0.0128 | discrepancy 0.0713 +- 0.0046 um | RMS bias 0.0701 um | model time 8.80 s
+FSM-400            prediction 0.0127 | discrepancy 0.0368 +- 0.0044 um | RMS bias 0.0340 um | model time 34.65 s
+FSM-200 released   prediction 0.0128 | discrepancy 0.0798 +- 0.0047 um | RMS bias 0.0788 um | model time 46.06 s
+FSM-100 1n         prediction 0.0331 | discrepancy 0.0432 +- 0.0142 um | RMS bias 0.0404 um | model time 0.79 s
+FSM-200 r0.9       prediction 0.0128 | discrepancy 0.0625 +- 0.0046 um | RMS bias 0.0612 um | model time 5.00 s
+FSM-400 8n r0.25   prediction 0.0122 | discrepancy 0.0429 +- 0.0044 um | RMS bias 0.0408 um | model time 134.10 s
+--- edge_verification.txt
+A1 random n=250 cut=250 max|python-oracle|=8.9e-13 um max|C++-oracle|=8.9e-13 um
+A1 tip-sweep edge n=250 cut=250 max|python-oracle|=0.0e+00 um max|C++-oracle|=0.0e+00 um
+A1 outer band n=250 cut=245 max|python-oracle|=9.1e-13 um max|C++-oracle|=9.1e-13 um
+A1 cut edge n=250 cut=116 max|python-oracle|=9.1e-13 um max|C++-oracle|=9.1e-13 um
+A2 random n=250 cut=250 max|python-oracle|=8.9e-13 um max|C++-oracle|=8.9e-13 um
+A2 tip-sweep edge n=250 cut=250 max|python-oracle|=0.0e+00 um max|C++-oracle|=0.0e+00 um
+A2 outer band n=250 cut=242 max|python-oracle|=9.1e-13 um max|C++-oracle|=9.1e-13 um
+A2 cut edge n=250 cut=95 max|python-oracle|=9.1e-13 um max|C++-oracle|=9.1e-13 um
+A3 random n=250 cut=250 max|python-oracle|=8.9e-13 um max|C++-oracle|=8.9e-13 um
+A3 tip-sweep edge n=250 cut=250 max|python-oracle|=0.0e+00 um max|C++-oracle|=0.0e+00 um
+A3 outer band n=250 cut=245 max|python-oracle|=9.0e-13 um max|C++-oracle|=9.0e-13 um
+A3 cut edge n=250 cut=45 max|python-oracle|=9.1e-13 um max|C++-oracle|=9.1e-13 um
+--- radial_shortcut.json
+{
+ "A1": {
+  "grid": 200,
+  "n": 80601,
+  "max_um": 3.4860223481851804,
+  "p999_um": 0.11753354802834792,
+  "p99_um": 0.09455145649539531,
+  "mean_um": 0.029396740385486935,
+  "Sa_ray": 1.5710284476560874,
+  "Sa_radial": 1.5709185083110602,
+  "dSa_pct": -0.006997921978513233,
+  "Sz_ray": 9.942837349743769,
+  "Sz_radial": 10.04370586867509,
+  "dSz_pct": 1.014484250151404
+ },
+ "A2": {
+  "grid": 200,
+  "n": 80601,
+  "max_um": 0.08560618256492347,
+  "p999_um": 0.08461404138504491,
+  "p99_um": 0.07524363529842759,
+  "mean_um": 0.022102107747209686,
+  "Sa_ray": 1.9380001678732146,
+  "Sa_radial": 1.939338823057294,
+  "dSa_pct": 0.06907404892273483,
+  "Sz_ray": 9.986187291339924,
+  "Sz_radial": 10.011935771740191,
+  "dSz_pct": 0.2578409521980074
+ },
+ "A3": {
+  "grid": 200,
+  "n": 80601,
+  "max_um": 0.10437579758804105,
+  "p999_um": 0.09905123688991324,
+  "p99_um": 0.08708857515760116,
+  "mean_um": 0.027893243131635864,
+  "Sa_ray": 2.029399634753348,
+  "Sa_radial": 2.0301366855691056,
+  "dSa_pct": 0.03631866307334253,
+  "Sz_ray": 9.723704383787002,
+  "Sz_radial": 9.791734906515408,
+  "dSz_pct": 0.6996358593730934
+ }
+}
+--- resolution_condition.csv
+case,grid_base,delta_t,ratio,method,Sa_um,Sz_um,t_s,cells_gt2um_above_tide
+A3,400,,0.25,tide,2.0297723463598,9.723704383787,1.5988588,
+A3,400,8e-07,0.25,fsm,1.96994126040404,9.38344475471808,1.216353,0
+A3,800,,0.49,tide,2.03066065332792,9.723704383787,6.3522008,
+A3,800,8e-07,0.49,fsm,2.00353367614315,9.61131017165273,2.4307728,0
+A3,1600,,0.98,tide,2.03130342548214,9.7365660465778,25.4097038,
+A3,1600,8e-07,0.98,fsm,2.0203615491356,12.0769410847034,5.0263972,205
+A3,1600,2e-07,0.25,fsm,2.01676264033107,9.74138427068049,19.4396872,0
+A1,3200,,1.45,tide,1.56865948308764,10.0642878741243,101.535516,
+A1,3200,8e-07,1.45,fsm,2.20944803136875,272.447221223019,12.3319228,2119600
+A1,3200,2e-07,0.36,fsm,1.5648009417319,10.0308107527365,44.9931356,0

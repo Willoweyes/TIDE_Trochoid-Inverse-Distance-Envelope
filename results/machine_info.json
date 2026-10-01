@@ -1,0 +1,16 @@
+{
+ "os": "Windows-10-10.0.26200-SP0",
+ "machine": "AMD64",
+ "python": "3.11.9",
+ "logical_cores": 16,
+ "cpu": "AMD Ryzen 7 6800H with Radeon Graphics",
+ "cpu_max_clock_MHz": "3201",
+ "physical_cores": "8",
+ "ram_GB": "15.3",
+ "power_plan": "Power Scheme GUID: 27fa6203-3987-4dcc-918d-748559d549ec  (Performance)",
+ "compiler": "GNU 13.3.0",
+ "numpy": "2.4.4",
+ "scipy": "1.17.1",
+ "sklearn": "1.8.0",
+ "matplotlib": "3.10.9"
+}

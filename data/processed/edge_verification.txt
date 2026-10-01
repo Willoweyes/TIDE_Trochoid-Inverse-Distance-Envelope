@@ -1,0 +1,12 @@
+A1 random n=250 cut=250 max|python-oracle|=8.9e-13 um max|C++-oracle|=8.9e-13 um
+A1 tip-sweep edge n=250 cut=250 max|python-oracle|=0.0e+00 um max|C++-oracle|=0.0e+00 um
+A1 outer band n=250 cut=245 max|python-oracle|=9.1e-13 um max|C++-oracle|=9.1e-13 um
+A1 cut edge n=250 cut=116 max|python-oracle|=9.1e-13 um max|C++-oracle|=9.1e-13 um
+A2 random n=250 cut=250 max|python-oracle|=8.9e-13 um max|C++-oracle|=8.9e-13 um
+A2 tip-sweep edge n=250 cut=250 max|python-oracle|=0.0e+00 um max|C++-oracle|=0.0e+00 um
+A2 outer band n=250 cut=242 max|python-oracle|=9.1e-13 um max|C++-oracle|=9.1e-13 um
+A2 cut edge n=250 cut=95 max|python-oracle|=9.1e-13 um max|C++-oracle|=9.1e-13 um
+A3 random n=250 cut=250 max|python-oracle|=8.9e-13 um max|C++-oracle|=8.9e-13 um
+A3 tip-sweep edge n=250 cut=250 max|python-oracle|=0.0e+00 um max|C++-oracle|=0.0e+00 um
+A3 outer band n=250 cut=245 max|python-oracle|=9.0e-13 um max|C++-oracle|=9.0e-13 um
+A3 cut edge n=250 cut=45 max|python-oracle|=9.1e-13 um max|C++-oracle|=9.1e-13 um
