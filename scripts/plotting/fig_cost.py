@@ -1,4 +1,4 @@
-"""Fig. 5 -- (a) one cutting condition per case run with 64 numerical settings
+"""Fig. 4 -- (a) one cutting condition per case run with 64 numerical settings
 of the forward solution method (cells, step ratio r, edge points) and with TIDE
 over sampling only: runtime against signed S_a error; (b) runtime against mean
 |error| along the doubling ladder of cells (time step tied to the grid),

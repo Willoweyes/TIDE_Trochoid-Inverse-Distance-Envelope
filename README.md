@@ -31,14 +31,14 @@ On Windows with MinGW use `-G "MinGW Makefiles"`; with MSVC the executables are 
 
 All scripts build with `-O3`/`/O2` and **no fast-math**, run every experiment **single-threaded** (`OMP_NUM_THREADS=1`) and report the **median of three runs** (`TIDE_REPS=3`). A full run takes about 1–2 h on a modern 8-core desktop/laptop CPU (most of it FSM at 1600–3200 cells and the hybrid-model study). A single step: `python scripts/run_experiments.py <step>` with step ∈ `verify sampling ladder cost resolution surfaces scaling`; the hybrid-model study is `python scripts/experiments/pipeline_study.py [cloud ref cores learn]` (`learn` reads the shipped `data/raw/pipeline_reference.csv` and `pipeline_cores.csv` and runs in seconds; `ref` is the long step, about 1 h on 2 cores).
 
-**What to expect.** Accuracy results (heights, Sa, Sz, errors, convergence orders, verification against the brute-force search, the hybrid-model errors) are deterministic and reproduce to round-off (the largest relative difference we observed between two platforms and compilers is 5×10⁻¹², in Sa). Wall-clock times depend on the machine, compiler and C library; the ratios between TIDE and FSM change with them (see `results/machine_info.json` for the machine of the shipped results).
+**What to expect.** Accuracy results (heights, Sa, Sz, errors, convergence orders, verification against the brute-force search) are deterministic and reproduce to round-off (the largest relative difference we observed between two platforms and compilers is 5×10⁻¹², in Sa). The hybrid-model errors come from a Gaussian-process fit and reproduce to about three significant digits (the optimiser result depends on the library versions; shipped run: numpy 2.4.4, scipy 1.17.1, scikit-learn 1.8.0, matplotlib 3.10.9). Wall-clock times depend on the machine, compiler and C library; the ratios between TIDE and FSM change with them (see `results/machine_info.json` for the machine of the shipped results).
 
 ## 3. Where each result comes from
 
 | Item | Step | Output (shipped in this repository) |
 |---|---|---|
 | Schematic of the method | – | `scripts/plotting/fig_schematic.py` |
-| Cases A1–A3 | – | `benchmark/test_cases/paper_A*.json` |
+| Cases A1–A3 (test cases released with surf-topo, after the experiments of Wang et al., J. Manuf. Process. 107 (2023) 74–87) | – | `benchmark/test_cases/paper_A*.json` |
 | Verification against a brute-force crossing search | `verify` | `data/processed/edge_verification.txt` |
 | Newton steps needed (residual of the crossing after 0–4 steps) | `python scripts/experiments/newton_steps.py 1000` | `data/processed/newton_steps.txt` |
 | Radial approximation vs edge-ray contact (supplementary) | `experiments/radial_shortcut.py` | `data/processed/radial_shortcut.json` |
@@ -63,7 +63,7 @@ include/fsm_core.hpp     forward Z-map (FSM), C++ implementation of the algorith
 include/tide_json.hpp    case-file reader
 src/tide/tide_tools.cpp  driver: modes fsm | tide | points
 src/benchmarks/          TIDE runtime vs grid, cutting speed and feed
-src/reference_python/    Python TIDE (verification, schematic)
+src/reference_python/    Python TIDE (verification, Newton-step and radial-approximation studies, schematic)
 src/reference_efsm/      Python FSM reference
 benchmark/test_cases/    cases A1–A3
 scripts/                 run_experiments.py, experiments/, plotting/, paper_numbers.py, machine_info.py
@@ -72,7 +72,7 @@ compare_bakhshan/        comparison with the original released FSM code (section
 run_all.bat, run_all.sh, run_local.py   one-shot reproduction
 ```
 
-Timings are single-thread wall-clock times (`std::chrono::steady_clock`) measured inside `tide_tools`; process start-up and file I/O are not included. TIDE has no reduction across points, so its result is bitwise identical with and without OpenMP; `OMP_NUM_THREADS=n` runs it on `n` threads. FSM uses a time step tied to the grid (r = v_c Δt/Δy = 0.5) unless marked `released` (Δt = 8·10⁻⁷ s).
+Timings are single-thread wall-clock times (`std::chrono::steady_clock`) measured inside `tide_tools`; process start-up and file I/O are not included (exception: `data/raw/scaling.csv` is timed by `bench_scaling` with `label_only()`, two passes over the nodes, so its absolute times are about twice those of `tide_tools tide`; only its relative spread is used). TIDE has no reduction across points, so its result is bitwise identical with and without OpenMP; `OMP_NUM_THREADS=n` runs it on `n` threads. FSM uses a time step tied to the grid (r = v_c Δt/Δy = 0.5) unless marked `released` (Δt = 8·10⁻⁷ s) or, in the hybrid study, `r0.9` / `r0.25`; FSM uses 4n edge points unless marked `1n` or `8n`.
 
 ## 5. Comparison with the original FSM code (optional)
 
@@ -85,7 +85,7 @@ g++ -std=c++17 -O3 -march=native -fopenmp -DEIGEN_NO_DEBUG -I surf-topo/src -I /
     compare_bakhshan/bakhshan_driver.cpp surf-topo/src/simulation.cpp -o compare_bakhshan/bakhshan_gcc_native
 g++ -std=c++17 -O3 -fopenmp -DEIGEN_NO_DEBUG -I surf-topo/src -I /path/to/eigen -I include \
     compare_bakhshan/bakhshan_driver.cpp surf-topo/src/simulation.cpp -o compare_bakhshan/bakhshan_gcc_generic
-# optional: build its Python module (see its README) and point to it
+# optional: build its Python module (see its README) and point to it; without it the MSVC/`pyd` rows are skipped
 export SURFTOPO_BIN=$PWD/surf-topo/bin PYD_PYTHON=python
 python compare_bakhshan/run_compare.py            # steps: acc time threads mt3 (about 35 min)
 ```

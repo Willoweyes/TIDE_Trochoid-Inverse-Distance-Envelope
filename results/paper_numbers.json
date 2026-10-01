@@ -4,7 +4,7 @@
  "grid_T1": 100,
  "grid_F1": 1600,
  "ratio": 97.3,
- "ratio_floor": 50,
+ "ratio_floor": 90,
  "ord_sa": "1.02-1.06",
  "ord_sz": "1.06-1.18",
  "spread_vc": "0.7",

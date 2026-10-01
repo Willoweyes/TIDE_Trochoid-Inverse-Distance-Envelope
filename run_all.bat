@@ -5,6 +5,8 @@ python -m pip install -r requirements.txt || goto :err
 cmake -S . -B build -A x64 || goto :err
 cmake --build build --config Release || goto :err
 set OMP_NUM_THREADS=1
+set OPENBLAS_NUM_THREADS=1
+set MKL_NUM_THREADS=1
 set TIDE_REPS=3
 python scripts\machine_info.py || goto :err
 python scripts\run_experiments.py || goto :err

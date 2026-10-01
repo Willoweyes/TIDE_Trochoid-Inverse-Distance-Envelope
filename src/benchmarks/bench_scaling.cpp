@@ -1,6 +1,7 @@
 // bench_scaling -- TIDE runtime versus grid, cutting speed and feed (case A1).
 // TIDE has no time loop, so the cost must not depend on v_c or f_z.
-// Output: CSV on stdout, median of --reps runs, single thread.
+// Output: CSV on stdout, median of --reps runs, single thread. Timed with label_only(), which makes two passes
+// over the nodes, so absolute times are about twice those of `tide_tools tide`; only the relative spread is used.
 #include "tide_core.hpp"
 #include <chrono>
 #include <cstdio>

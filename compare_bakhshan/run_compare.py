@@ -31,6 +31,11 @@ EXE = {"ours": exe("tide_tools"), "gcc_native": str(HERE / ("bakhshan_gcc_native
        "gcc_generic": str(HERE / ("bakhshan_gcc_generic" + SFX))}
 CASES = ["A1", "A2", "A3"]
 GRIDS = [int(g) for g in os.environ.get("COMPARE_GRIDS", "25,50,100,200,400,800,1600").split(",")]   # e.g. COMPARE_GRIDS=25,50 for a quick check
+def _have_pyd():
+    r = subprocess.run([PYD_PY, "-c", "import sys; sys.path.insert(0, sys.argv[1]); import surftopo", os.environ.get("SURFTOPO_BIN", "surf-topo/bin")], capture_output=True)
+    return r.returncode == 0
+HAVE_PYD = _have_pyd()
+if not HAVE_PYD: print("note: surftopo (prebuilt Python module) not importable; the 'pyd' rows are skipped", flush=True)
 steps = sys.argv[1:] or ["acc", "time", "threads", "mt3"]
 
 def cmd(impl, cfgf, gb, dt, dump=None):
@@ -77,7 +82,7 @@ if "acc" in steps:
                 dt = regime_dt(c, gb, regime)
                 if done(rows, regime=regime, case=case, grid=gb): continue
                 ref = TMP / "ref.bin"; ro = run("ours", cfgf, gb, dt, dump=ref); zr = np.fromfile(ref)
-                for impl in ("pyd", "gcc_native", "gcc_generic"):
+                for impl in [i for i in ("pyd", "gcc_native", "gcc_generic") if i != "pyd" or HAVE_PYD]:
                     f = TMP / f"{impl}.bin"; o = run(impl, cfgf, gb, dt, threads=8, dump=f); z = np.fromfile(f)
                     d = z - zr
                     append(P, dict(regime=regime, case=case, grid=gb, dt=dt, impl=impl, n_points=z.size,
@@ -91,7 +96,7 @@ if "acc" in steps:
     P2 = RES / "exp1b_thread_determinism.csv"
     if not Path(P2).exists():
         cfgf, c = case_cfg("A1"); gb = 400; dt = matched_dt(c, gb)
-        for impl in ("pyd", "gcc_native"):
+        for impl in [i for i in ("pyd", "gcc_native") if i != "pyd" or HAVE_PYD]:
             zs = {}
             for th in (1, 16):
                 f = TMP / f"{impl}_{th}.bin"; run(impl, cfgf, gb, dt, threads=th, dump=f); zs[th] = np.fromfile(f)
@@ -105,7 +110,7 @@ if "time" in steps:
     jobs = [("matched", case, gb) for case in CASES for gb in GRIDS] + [("released", case, 200) for case in CASES]
     for regime, case, gb in jobs:
         cfgf, c = case_cfg(case); dt = regime_dt(c, gb, regime)
-        for impl in ("ours", "gcc_native", "pyd"):
+        for impl in [i for i in ("ours", "gcc_native", "pyd") if i != "pyd" or HAVE_PYD]:
             if done(rows, regime=regime, case=case, grid=gb, impl=impl): continue
             o = run(impl, cfgf, gb, dt, threads=1, reps=3)
             append(P, dict(regime=regime, case=case, grid=gb, dt=dt, impl=impl, threads=1, Sa=o["Sa"], Sz=o["Sz"], t_s=o["t_s"],
@@ -122,7 +127,7 @@ if "time" in steps:
 if "threads" in steps:
     P = RES / "exp3_threads.csv"; rows = load(P)
     cfgf, c = case_cfg("A1")
-    jobs = [("pyd", 1600), ("gcc_native", 1600), ("tide", 100), ("tide", 1600)]
+    jobs = [j for j in [("pyd", 1600), ("gcc_native", 1600), ("tide", 100), ("tide", 1600)] if j[0] != "pyd" or HAVE_PYD]
     for impl, gb in jobs:
         dt = matched_dt(c, gb)
         for th in (1, 2, 4, 8, 16):
@@ -135,7 +140,7 @@ if "mt3" in steps:
     P = RES / "exp3b_16threads_allcases.csv"; rows = load(P)
     for case in CASES:
         cfgf, c = case_cfg(case)
-        for impl, gb in (("pyd", 1600), ("gcc_native", 1600), ("tide", 100), ("tide", 1600)):
+        for impl, gb in [j for j in (("pyd", 1600), ("gcc_native", 1600), ("tide", 100), ("tide", 1600)) if j[0] != "pyd" or HAVE_PYD]:
             for th in (16,):
                 if done(rows, case=case, impl=impl, grid=gb, threads=th): continue
                 o = run(impl, cfgf, gb, matched_dt(c, gb), threads=th, reps=3)

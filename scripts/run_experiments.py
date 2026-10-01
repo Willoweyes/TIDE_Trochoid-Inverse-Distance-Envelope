@@ -102,7 +102,7 @@ if "cost" in steps:
             print("cost", case, gb, "%.3fs %.3fs" % (t["t_s"], f["t_s"]), flush=True)
     save_csv(RAW/"cost_accuracy_dense.csv", rows)
 
-# ---- Sect. 5.2: sampling condition r < r_max (A3 at 1600 cells, A1 at 3200 cells)
+# ---- Sect. 5.3 (Time step): sampling condition r < r_max (A3 at 1600 cells, A1 at 3200 cells)
 if "resolution" in steps:
     rows = []
     for case, gb, dts in (("A3", 400, [8e-7]), ("A3", 800, [8e-7]), ("A3", 1600, [8e-7, 2e-7]), ("A1", 3200, [8e-7, 2e-7])):
@@ -130,7 +130,7 @@ if "surfaces" in steps:
     d["tide_X"], d["tide_Y"], d["tide_Z"] = d["tide400_X"], d["tide400_Y"], d["tide400_Z"]
     np.savez_compressed(RAW/"surfaces/A1_fsm_vs_tide.npz", **d); print("surfaces ok")
 
-# ---- Sect. 5.1: TIDE runtime vs grid, v_c (50-2400 m/min) and f_z (0.05-1.2 mm)
+# ---- Sect. 5.2: TIDE runtime vs grid, v_c (50-2400 m/min) and f_z (0.05-1.2 mm)
 if "scaling" in steps:
     out = subprocess.run([exe("bench_scaling"), "--reps", "3"], capture_output=True, text=True, env=ENV, check=True).stdout
     (RAW/"scaling.csv").write_text(out); print(out)

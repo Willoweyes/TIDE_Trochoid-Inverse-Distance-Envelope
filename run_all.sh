@@ -3,7 +3,7 @@
 set -e; cd "$(dirname "$0")"
 python3 -m pip install -r requirements.txt
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j
-export OMP_NUM_THREADS=1 TIDE_REPS=3
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 TIDE_REPS=3
 python3 scripts/machine_info.py
 python3 scripts/run_experiments.py
 python3 scripts/experiments/pipeline_study.py

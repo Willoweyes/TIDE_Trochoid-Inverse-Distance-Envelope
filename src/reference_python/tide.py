@@ -3,13 +3,13 @@
 TIDE -- Trochoid Inverse-Distance Envelope.
 ===================================================================================
 A closed-form analytical method for 3D face-milling surface topography and areal
-roughness.  Author: Duong Duc Tri (sole author).  Personal research project.
+roughness.  Authors: Duong Duc Tri, Nguyen Quoc Chi.
 
 TIDE inverts the forward FSM/EFSM simulation: rather than marching through time, it
 computes -- for each workpiece grid point -- the closed-form nearest approach of the
 insert-tip trochoid and reads the cut depth from the round-nose profile.  The result
 is the resolution-independent geometric surface that EFSM only reaches with a fine
-(slow) grid.  Detailed derivations: docs/thesis/TIDE_Thesis.docx ([REF] below).
+(slow) grid.  The derivations are summarised in METHOD.md ([REF] below).
 
 What this module IS
 -------------------
@@ -56,7 +56,7 @@ Conventions (identical to the legacy code and the EFSM benchmark)
 Requirements: numpy only.  (scipy is used by validate_tide.py, not here.)
 
 Run on one benchmark case:
-    python src/tide/tide.py benchmark/test_cases/paper/paper_A1.json
+    python src/reference_python/tide.py benchmark/test_cases/paper_A1.json
 """
 from dataclasses import dataclass
 from pathlib import Path
@@ -409,7 +409,7 @@ def surface_zmap(cfg, mode="newton", newton_steps=2):
     z[uncut] = k.a_p                             # never reached -> stock plane
     info = {"uncut_frac": float(uncut.mean()), "DeltaL": dL, "mode": mode}
     if info["uncut_frac"] > 0.02:
-        print(f"[bsm warning] {info['uncut_frac']*100:.1f}% of grid points uncut "
+        print(f"[tide warning] {info['uncut_frac']*100:.1f}% of grid points uncut "
               f"(stock height). Check the measurement window.", file=sys.stderr)
     return ((k.z0 + z) * 1000.0).reshape(X.shape), k, info
 

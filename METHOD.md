@@ -87,8 +87,9 @@ turns), but now around the right centre.
 full trochoidal motion. Near the root `|f'| >= omega |P - c| - v_f > 0`, and
 `v_f / (omega |P - c|) = f_z z_n / (2 pi |P - c|)` (about 0.04 for case A1):
 the ray turns much faster than the centre moves, so each revolution has exactly
-one simple root and `f` is nearly linear around it. Two Newton steps reach
-round-off; the code uses four.
+one simple root and `f` is nearly linear around it. Two Newton steps bring
+the height to within 2.4e-10 um and three bring the crossing to round-off
+(`data/processed/newton_steps.txt`); the code uses four as a margin.
 
 ## 8. Height
 

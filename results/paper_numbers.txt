@@ -5,7 +5,7 @@ tide: mean runtime s {25: 0.0067, 50: 0.0258, 100: 0.1007, 200: 0.3998, 400: 1.6
 fsm: mean |err| Sa % {25: 46.736, 50: 23.066, 100: 11.795, 200: 5.708, 400: 2.791, 800: 1.375, 1600: 0.68}
 fsm: mean |err| Sz % {25: 41.034, 50: 21.58, 100: 15.096, 200: 7.114, 400: 3.544, 800: 1.436, 1600: 0.216}
 fsm: mean runtime s {25: 0.0031, 50: 0.011, 100: 0.0408, 200: 0.1571, 400: 0.619, 800: 2.4685, 1600: 9.795}
-1% in Sa and Sz: TIDE 100 cells 0.10 s, FSM 1600 cells 9.8 s, ratio 97.3 (> 50)
+1% in Sa and Sz: TIDE 100 cells 0.10 s, FSM 1600 cells 9.8 s, ratio 97.3 (> 90)
 FSM Sa at 100 cells vs TIDE at 1600 cells: [ -8.41 -15.09 -11.89] %
 convergence order Sa 1.02-1.06, Sz 1.06-1.18
 released setting A1: FSM Sa -4.48 % vs TIDE 1600
@@ -17,6 +17,13 @@ settings cloud A1: Sa error -21.1 .. 3.4 %
 settings cloud A2: Sa error -36.3 .. 1.4 %
 settings cloud A3: Sa error -26.6 .. -0.1 %
 settings cloud A1: Sz 5.33 .. 38.24 um
+TIDE runtime: max over cases 0.0068 s at 25 cells (1326 points), 26.9 s at 1600 cells; 5.0-5.6 us per point
+released code vs this FSM: 42 combinations, largest height difference 8.9e-13 um
+released code (GCC build) / this FSM, one thread: 2.1-2.4
+released FSM gcc_native, 16 threads, 1600 cells: mean 3.27 s (per case [2.65, 4.05, 3.11]); TIDE one thread 100 cells 0.1026 s; ratio of means 31.9, smallest per case 25.8
+released FSM pyd, 16 threads, 1600 cells: mean 5.12 s (per case [4.0, 6.33, 5.03]); TIDE one thread 100 cells 0.1026 s; ratio of means 49.9, smallest per case 39.0
+Newton steps, largest miss of P / height change [um]: 0: 2.5e+02/4.6e+00, 1: 5.0e-01/1.3e-04, 2: 1.3e-06/2.4e-10, 3: 1.4e-10/8.9e-13, 4: 1.2e-10/0.0e+00
+delta_true for h_min = 4 um: 0.54 .. 0.97 um
 TIDE-25            prediction 0.0127 | discrepancy 0.0241 +- 0.0048 um | RMS bias 0.0197 um | model time 0.31 s
 TIDE-50            prediction 0.0125 | discrepancy 0.0186 +- 0.0048 um | RMS bias 0.0135 um | model time 0.99 s
 TIDE-100           prediction 0.0121 | discrepancy 0.0159 +- 0.0043 um | RMS bias 0.0106 um | model time 3.72 s
